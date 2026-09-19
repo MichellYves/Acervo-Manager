@@ -1,0 +1,187 @@
+
+\documentclass[12pt,a4paper]{article}
+
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[brazil]{babel}
+\usepackage{geometry}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{enumitem}
+\usepackage{amsmath}
+\usepackage{hyperref}
+
+
+\geometry{
+    a4paper,
+    left=3cm,
+    right=2cm,
+    top=3cm,
+    bottom=2cm
+}
+
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    urlcolor=blue
+}
+
+\begin{document}
+
+\begin{center}
+    {\LARGE \textbf{Sistema de Gestão de Biblioteca}}\\[0.3cm]
+    {\Large Acervo Manager}
+\end{center}
+
+\vspace{1cm}
+
+\section{Arquitetura}
+
+A arquitetura do Acervo Manager define como o software será estruturado internamente, quais tecnologias serão utilizadas e como os diferentes componentes do sistema irão se comunicar.
+
+A arquitetura foi planejada com uma separação entre frontend, backend e banco de dados, permitindo que cada componente tenha uma responsabilidade específica.
+
+\section{Tecnologias utilizadas}
+
+Para o desenvolvimento do sistema, foram definidas as seguintes tecnologias:
+
+\begin{table}[h!]
+    \centering
+    \renewcommand{\arraystretch}{1.4}
+    \begin{tabular}{|p{3.5cm}|p{4cm}|p{6cm}|}
+        \hline
+        \textbf{Componente} & \textbf{Tecnologia} & \textbf{Função} \\
+        \hline
+        Front-End & Angular & Desenvolvimento da interface do sistema \\
+        \hline
+        Estilização & Tailwind CSS & Criação e organização das telas do sistema \\
+        \hline
+        Back-End & Node.js + Express & Processamento das requisições e lógica do sistema \\
+        \hline
+        Banco de dados & MySQL & Armazenamento das informações \\
+        \hline
+        Comunicação & API REST / HTTP & Comunicação entre front-end e back-end \\
+        \hline
+    \end{tabular}
+    \caption{Tecnologias utilizadas no Acervo Manager}
+    \label{tab:tecnologias}
+\end{table}
+
+\section{Frontend}
+
+O frontend será desenvolvido utilizando Angular, sendo responsável pela interface com a qual o usuário irá interagir.
+
+O Angular será utilizado para desenvolver as diferentes telas e funcionalidades do sistema, como:
+
+\begin{itemize}
+    \item Cadastro e consulta de livros;
+    \item Cadastro e consulta de usuários;
+    \item Registro de empréstimos;
+    \item Registro de devoluções;
+    \item Consulta da disponibilidade dos livros.
+\end{itemize}
+
+Para a estilização da aplicação será utilizado o Tailwind CSS, permitindo criar uma interface organizada, responsiva e consistente.
+
+\section{Backend}
+
+O backend será desenvolvido utilizando Node.js com o framework Express.
+
+Sua principal função será receber e processar as requisições realizadas pelo frontend, executar as regras necessárias do sistema e realizar a comunicação com o banco de dados.
+
+Por exemplo, quando um usuário solicitar a lista de livros disponíveis, o Angular enviará uma requisição para a API. O backend receberá essa solicitação, consultará o MySQL e retornará os dados para o frontend.
+
+\section{Comunicação entre Frontend e Backend}
+
+A comunicação entre o frontend e o backend será realizada por meio de uma API REST, utilizando o protocolo HTTP.
+
+O fluxo básico de comunicação será:
+
+\begin{center}
+\textbf{Usuário}\\
+$\downarrow$\\
+\textbf{Frontend}\\
+$\downarrow$\\
+\textbf{Requisição HTTP}\\
+$\downarrow$\\
+\textbf{API REST (Backend)}\\
+$\downarrow$\\
+\textbf{Controller}\\
+$\downarrow$\\
+\textbf{Service}\\
+$\downarrow$\\
+\textbf{Repository}\\
+$\downarrow$\\
+\textbf{Banco de Dados}\\
+$\uparrow$\\
+\textbf{Repository}\\
+$\uparrow$\\
+\textbf{Service}\\
+$\uparrow$\\
+\textbf{Controller}\\
+$\uparrow$\\
+\textbf{Resposta HTTP (JSON)}\\
+$\uparrow$\\
+\textbf{Frontend}\\
+$\uparrow$\\
+\textbf{Usuário}
+\end{center}
+
+\section{Organização em camadas}
+
+O backend do Acervo Manager será organizado em camadas, com o objetivo de separar as responsabilidades de cada parte do sistema e facilitar a manutenção, a compreensão e a evolução do software.
+
+A arquitetura será composta principalmente pelas camadas \textbf{Controller}, \textbf{Service} e \textbf{Repository}, que trabalharão de forma integrada para processar as requisições e realizar as operações no banco de dados.
+
+\subsection{Controller}
+
+Será responsável por receber as requisições HTTP enviadas pelo frontend, interpretar os dados recebidos e encaminhar as solicitações para a camada Service. Também será responsável por retornar as respostas HTTP ao cliente.
+
+\subsection{Service}
+
+Concentrará as regras de negócio do sistema, como verificar a disponibilidade de um livro antes de realizar um empréstimo, validar as condições de uma devolução e coordenar as operações necessárias.
+
+\subsection{Repository}
+
+Será responsável pela comunicação com o banco de dados MySQL, realizando operações como cadastro, consulta, atualização e exclusão de informações.
+
+Essa separação permite que cada camada tenha uma função específica, reduzindo o acoplamento entre os componentes e facilitando a realização de alterações e manutenções no sistema.
+
+O fluxo de comunicação entre as camadas será:
+
+\begin{center}
+\textbf{Frontend}
+$\rightarrow$
+\textbf{Controller}
+$\rightarrow$
+\textbf{Service}
+$\rightarrow$
+\textbf{Repository}
+$\rightarrow$
+\textbf{Banco de Dados}
+\end{center}
+
+Após a operação ser concluída, o resultado seguirá o caminho inverso até chegar ao frontend.
+
+\section{Tratamento de erros e validações}
+
+O Acervo Manager contará com mecanismos de validação e tratamento de erros para garantir maior confiabilidade nas operações realizadas pelo sistema. As validações terão como objetivo impedir o cadastro de informações inválidas e verificar se as operações solicitadas podem ser executadas corretamente.
+
+No frontend, serão realizadas validações básicas nos formulários, como a verificação de campos obrigatórios, formatos de dados e preenchimento correto das informações. No backend, os dados recebidos também serão validados, garantindo que as regras de negócio sejam respeitadas independentemente da interface utilizada.
+
+Entre as principais validações e situações de erro que poderão ser tratadas, destacam-se:
+
+\begin{itemize}
+    \item Impedir o cadastro de livros ou usuários com campos obrigatórios vazios;
+    \item Verificar se o livro ou usuário informado existe no sistema;
+    \item Impedir o empréstimo de um livro que não esteja disponível;
+    \item Verificar se um empréstimo existe antes de realizar uma devolução;
+    \item Impedir operações com dados inválidos ou incompatíveis;
+    \item Retornar mensagens informativas ao usuário quando uma operação não puder ser concluída.
+\end{itemize}
+
+Dessa forma, o tratamento de erros e as validações contribuirão para a integridade dos dados, a segurança das operações e uma melhor experiência de uso do sistema.
+
+\end{document}
