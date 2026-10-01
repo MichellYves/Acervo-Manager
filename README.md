@@ -37,6 +37,6 @@ API REST utilizando HTTP.
 A documentação completa da arquitetura do sistema está disponível
 na pasta `docs`.
 
-5 - 👨‍💻 Projeto
+5 - Projeto
 
 Este projeto foi desenvolvido para o curso de Ciência da Computação da faculdade UNINASSAU MACEIÓ.
