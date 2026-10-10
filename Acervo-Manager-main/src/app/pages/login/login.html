@@ -1,0 +1,102 @@
+<div class="flex min-h-screen bg-white text-black font-sans">
+  
+  <!-- Lado Esquerdo: Conteúdo / Branding -->
+  <div class="hidden lg:flex lg:w-1/2 flex-col justify-between p-12 border-r border-black/10">
+    <div>
+      <span class="text-xs uppercase tracking-widest font-semibold px-2 py-1 bg-black text-white">Acervo manager</span>
+    </div>
+    <div>
+      <h1 class="text-4xl font-light tracking-tight mb-4">GENIAL</h1>
+      <p class="text-neutral-500 max-w-sm">Gerenciamento inteligente e ideal para gerir a sua biblioteca, controlar empréstimos e gerenciar livros com facilidade.</p>
+    </div>
+    <div class="text-xs text-neutral-400">
+      &copy; 2026 Acervo Manager. Todos os direitos reservados.
+    </div>
+  </div>
+
+  <!-- Lado Direito: Formulários (Login / Cadastro) -->
+  <div class="w-full lg:w-1/2 flex items-center justify-center p-8 sm:p-12">
+    <div class="w-full max-w-md">
+
+      <!-- Alternador de Abas -->
+      <div class="flex border-b border-black mb-8">
+        <button 
+          (click)="isLogin = true" 
+          [class.border-b-2]="isLogin" 
+          [class.border-black]="isLogin"
+          [class.text-neutral-400]="!isLogin"
+          class="pb-3 mr-8 font-medium text-sm transition-colors">
+          Entrar
+        </button>
+        <button 
+          (click)="isLogin = false" 
+          [class.border-b-2]="!isLogin" 
+          [class.border-black]="!isLogin"
+          [class.text-neutral-400]="isLogin"
+          class="pb-3 font-medium text-sm transition-colors">
+          Criar Conta
+        </button>
+      </div>
+
+      <!-- Formulário de Login -->
+      <form *ngIf="isLogin" class="space-y-6">
+        <div>
+          <label class="block text-xs uppercase tracking-wider mb-2 font-medium">E-mail</label>
+          <input 
+            type="email" 
+            placeholder="seu@email.com" 
+            class="w-full bg-transparent border border-black/30 p-3 text-sm focus:outline-none focus:border-black transition-colors"
+          />
+        </div>
+        <div>
+          <label class="block text-xs uppercase tracking-wider mb-2 font-medium">Senha</label>
+          <input 
+            type="password" 
+            placeholder="••••••••" 
+            class="w-full bg-transparent border border-black/30 p-3 text-sm focus:outline-none focus:border-black transition-colors"
+          />
+        </div>
+        <button 
+          type="submit" 
+          class="w-full bg-black text-white py-3 text-sm font-medium hover:bg-neutral-800 transition-colors">
+          Acessar Sistema
+        </button>
+      </form>
+
+      <!-- Formulário de Cadastro -->
+      <form *ngIf="!isLogin" class="space-y-6">
+        <div>
+          <label class="block text-xs uppercase tracking-wider mb-2 font-medium">Nome Completo</label>
+          <input 
+            type="text" 
+            placeholder="Seu nome" 
+            class="w-full bg-transparent border border-black/30 p-3 text-sm focus:outline-none focus:border-black transition-colors"
+          />
+        </div>
+        <div>
+          <label class="block text-xs uppercase tracking-wider mb-2 font-medium">E-mail</label>
+          <input 
+            type="email" 
+            placeholder="seu@email.com" 
+            class="w-full bg-transparent border border-black/30 p-3 text-sm focus:outline-none focus:border-black transition-colors"
+          />
+        </div>
+        <div>
+          <label class="block text-xs uppercase tracking-wider mb-2 font-medium">Senha</label>
+          <input 
+            type="password" 
+            placeholder="Mínimo de 6 caracteres" 
+            class="w-full bg-transparent border border-black/30 p-3 text-sm focus:outline-none focus:border-black transition-colors"
+          />
+        </div>
+        <button 
+          type="submit" 
+          class="w-full bg-black text-white py-3 text-sm font-medium hover:bg-neutral-800 transition-colors">
+          Cadastrar
+        </button>
+      </form>
+
+    </div>
+  </div>
+
+</div>
