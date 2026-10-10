@@ -1,0 +1,186 @@
+<div class="min-h-screen bg-slate-50 p-6 sm:p-8">
+  <div class="max-w-7xl mx-auto space-y-8">
+    <header>
+      <h1 class="text-3xl font-bold tracking-tight text-slate-900">Gerenciamento de Usuários</h1>
+    </header>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 h-fit">
+        <div class="flex items-center justify-between mb-6">
+          <h2 class="text-lg font-semibold text-slate-800">
+            {{ isEditing() ? 'Editar Usuário' : 'Novo Usuário' }}
+          </h2>
+          @if (isEditing()) {
+            <button
+              type="button"
+              (click)="cancelEdit()"
+              class="text-xs text-rose-600 hover:text-rose-800 font-medium transition-colors"
+            >
+              Cancelar Edição
+            </button>
+          }
+        </div>
+
+        <form [formGroup]="userForm" (ngSubmit)="onSubmit()" class="space-y-4">
+          <div>
+            <label class="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-1"
+              >Nome Completo</label
+            >
+            <input
+              type="text"
+              formControlName="name"
+              placeholder="Ex: Caio Santos"
+              class="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 text-slate-800 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
+            />
+            @if (userForm.get('name')?.touched && userForm.get('name')?.invalid) {
+              <span class="text-xs text-rose-500 mt-1 block"
+                >Nome é obrigatório (mín. 3 caracteres).</span
+              >
+            }
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-1"
+              >E-mail</label
+            >
+            <input
+              type="email"
+              formControlName="email"
+              placeholder="exemplo@email.com"
+              class="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 text-slate-800 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
+            />
+            @if (userForm.get('email')?.touched && userForm.get('email')?.invalid) {
+              <span class="text-xs text-rose-500 mt-1 block">Digite um e-mail válido.</span>
+            }
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-1"
+              >Perfil</label
+            >
+            <select
+              formControlName="role"
+              class="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 text-slate-800 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
+            >
+              <option value="Usuário">Usuário</option>
+              <option value="Editor">Editor</option>
+              <option value="Admin">Admin</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-1"
+              >Status</label
+            >
+            <select
+              formControlName="status"
+              class="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 text-slate-800 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
+            >
+              <option value="Ativo">Ativo</option>
+              <option value="Inativo">Inativo</option>
+            </select>
+          </div>
+
+          <button
+            type="submit"
+            class="w-full mt-2 bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2.5 px-4 rounded-lg text-sm shadow-sm transition-all focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+          >
+            {{ isEditing() ? 'Salvar Alterações' : 'Cadastrar Usuário' }}
+          </button>
+        </form>
+      </div>
+
+      <div
+        class="lg:col-span-2 bg-white rounded-2xl shadow-sm border border-slate-200 p-6 flex flex-col"
+      >
+        <div class="flex flex-col sm:flex-row gap-4 mb-6">
+          <div class="flex-1">
+            <input
+              type="text"
+              (input)="onSearch($event)"
+              placeholder="Buscar por nome ou e-mail..."
+              class="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 text-slate-800 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
+            />
+          </div>
+          <div class="sm:w-48">
+            <select
+              (change)="onFilterRole($event)"
+              class="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 text-slate-800 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
+            >
+              <option value="">Todos os perfis</option>
+              <option value="Admin">Admin</option>
+              <option value="Editor">Editor</option>
+              <option value="Usuário">Usuário</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="overflow-x-auto flex-1 border border-slate-100 rounded-xl">
+          <table class="w-full text-left border-collapse">
+            <thead>
+              <tr
+                class="bg-slate-50 border-b border-slate-200 text-xs font-semibold text-slate-500 uppercase tracking-wider"
+              >
+                <th class="py-3.5 px-4">Usuário</th>
+                <th class="py-3.5 px-4">Perfil</th>
+                <th class="py-3.5 px-4">Status</th>
+                <th class="py-3.5 px-4 text-right">Ações</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100 text-sm">
+              @for (user of filteredUsers(); track user.id) {
+                <tr class="hover:bg-slate-50/80 transition-colors">
+                  <td class="py-3.5 px-4">
+                    <div class="font-medium text-slate-800">{{ user.name }}</div>
+                    <div class="text-xs text-slate-500">{{ user.email }}</div>
+                  </td>
+                  <td class="py-3.5 px-4">
+                    <span
+                      class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-100 text-slate-700"
+                    >
+                      {{ user.role }}
+                    </span>
+                  </td>
+                  <td class="py-3.5 px-4">
+                    <span
+                      [class]="
+                        user.status === 'Ativo'
+                          ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
+                          : 'bg-slate-100 text-slate-600 border-slate-200'
+                      "
+                      class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border"
+                    >
+                      {{ user.status }}
+                    </span>
+                  </td>
+                  <td class="py-3.5 px-4 text-right space-x-2">
+                    <button
+                      type="button"
+                      (click)="editUser(user)"
+                      class="text-indigo-600 hover:text-indigo-900 font-medium text-xs bg-indigo-50 hover:bg-indigo-100 px-2.5 py-1.5 rounded transition"
+                    >
+                      Editar
+                    </button>
+                    <button
+                      type="button"
+                      (click)="deleteUser(user.id)"
+                      class="text-rose-600 hover:text-rose-900 font-medium text-xs bg-rose-50 hover:bg-rose-100 px-2.5 py-1.5 rounded transition"
+                    >
+                      Excluir
+                    </button>
+                  </td>
+                </tr>
+              } @empty {
+                <tr>
+                  <td colspan="4" class="py-8 text-center text-slate-400 text-sm">
+                    Nenhum usuário encontrado.
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
