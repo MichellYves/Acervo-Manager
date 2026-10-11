@@ -1,0 +1,205 @@
+<div class="p-6 max-w-7xl mx-auto">
+  <div class="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
+    <div>
+      <h1 class="text-2xl font-bold text-gray-800">Empréstimos</h1>
+    </div>
+    <button
+      (click)="openModal()"
+      class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 rounded-lg transition duration-200 shadow-sm flex items-center gap-2"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-5 w-5"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+      </svg>
+      Novo Empréstimo
+    </button>
+  </div>
+
+  <div
+    class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex flex-col md:flex-row justify-between gap-4 mb-6"
+  >
+    <div class="w-full md:w-1/3">
+      <input
+        type="text"
+        [(ngModel)]="searchTerm"
+        placeholder="Pesquisar por utilizador ou livro..."
+        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+      />
+    </div>
+
+    <div class="flex gap-2 overflow-x-auto pb-2 md:pb-0">
+      <button
+        (click)="filterStatus = 'TODOS'"
+        [class]="
+          filterStatus === 'TODOS'
+            ? 'bg-blue-600 text-white'
+            : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+        "
+        class="px-3 py-1.5 rounded-lg text-xs font-semibold transition"
+      >
+        Todos
+      </button>
+      <button
+        (click)="filterStatus = 'EM_ANDAMENTO'"
+        [class]="
+          filterStatus === 'EM_ANDAMENTO'
+            ? 'bg-blue-600 text-white'
+            : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+        "
+        class="px-3 py-1.5 rounded-lg text-xs font-semibold transition"
+      >
+        Em Andamento
+      </button>
+      <button
+        (click)="filterStatus = 'ATRASADO'"
+        [class]="
+          filterStatus === 'ATRASADO'
+            ? 'bg-blue-600 text-white'
+            : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+        "
+        class="px-3 py-1.5 rounded-lg text-xs font-semibold transition"
+      >
+        Atrasados
+      </button>
+      <button
+        (click)="filterStatus = 'DEVOLVIDO'"
+        [class]="
+          filterStatus === 'DEVOLVIDO'
+            ? 'bg-blue-600 text-white'
+            : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+        "
+        class="px-3 py-1.5 rounded-lg text-xs font-semibold transition"
+      >
+        Devolvidos
+      </button>
+    </div>
+  </div>
+
+  <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+    <div class="overflow-x-auto">
+      <table class="w-full text-left border-collapse">
+        <thead>
+          <tr
+            class="bg-gray-50 border-b border-gray-100 text-xs font-semibold text-gray-500 uppercase tracking-wider"
+          >
+            <th class="p-4">Utilizador</th>
+            <th class="p-4">Livro</th>
+            <th class="p-4">Data Empréstimo</th>
+            <th class="p-4">Devolução Prevista</th>
+            <th class="p-4">Estado</th>
+            <th class="p-4 text-right">Ações</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-100 text-sm">
+          <tr *ngFor="let item of filteredLoans" class="hover:bg-gray-50 transition">
+            <td class="p-4 font-medium text-gray-800">{{ item.user }}</td>
+            <td class="p-4 text-gray-600">{{ item.book }}</td>
+            <td class="p-4 text-gray-600">{{ item.loanDate | date: 'dd/MM/yyyy' }}</td>
+            <td class="p-4 text-gray-600">{{ item.dueDate | date: 'dd/MM/yyyy' }}</td>
+            <td class="p-4">
+              <span
+                class="px-2.5 py-1 rounded-full text-xs font-semibold"
+                [ngClass]="{
+                  'bg-yellow-100 text-yellow-800': item.status === 'EM_ANDAMENTO',
+                  'bg-red-100 text-red-800': item.status === 'ATRASADO',
+                  'bg-green-100 text-green-800': item.status === 'DEVOLVIDO',
+                }"
+              >
+                {{
+                  item.status === 'EM_ANDAMENTO'
+                    ? 'Em Andamento'
+                    : item.status === 'ATRASADO'
+                      ? 'Atrasado'
+                      : 'Devolvido'
+                }}
+              </span>
+            </td>
+            <td class="p-4 text-right">
+              <button
+                *ngIf="item.status !== 'DEVOLVIDO'"
+                (click)="registerReturn(item.id)"
+                class="text-xs bg-green-50 hover:bg-green-100 text-green-700 font-medium px-3 py-1.5 rounded-lg border border-green-200 transition"
+              >
+                Registar Devolução
+              </button>
+              <span *ngIf="item.status === 'DEVOLVIDO'" class="text-xs text-gray-400 italic"
+                >Concluído</span
+              >
+            </td>
+          </tr>
+          <tr *ngIf="filteredLoans.length === 0">
+            <td colspan="6" class="p-8 text-center text-gray-400 text-sm">
+              Nenhum empréstimo encontrado.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div
+    *ngIf="isModalOpen"
+    class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50"
+  >
+    <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-xl border border-gray-100">
+      <h2 class="text-lg font-bold text-gray-800 mb-4">Novo Empréstimo</h2>
+
+      <div class="space-y-4">
+        <div>
+          <label class="block text-xs font-semibold text-gray-600 uppercase mb-1">Utilizador</label>
+          <select
+            [(ngModel)]="newLoan.userId"
+            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            <option [ngValue]="null" disabled>Selecione um utilizador...</option>
+            <option *ngFor="let u of availableUsers" [ngValue]="u.id">{{ u.name }}</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-gray-600 uppercase mb-1"
+            >Livro Disponível</label
+          >
+          <select
+            [(ngModel)]="newLoan.bookId"
+            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            <option [ngValue]="null" disabled>Selecione um livro...</option>
+            <option *ngFor="let b of availableBooks" [ngValue]="b.id">{{ b.title }}</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-gray-600 uppercase mb-1"
+            >Data Prevista de Devolução</label
+          >
+          <input
+            type="date"
+            [(ngModel)]="newLoan.dueDate"
+            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+      </div>
+
+      <div class="flex justify-end gap-2 mt-6">
+        <button
+          (click)="closeModal()"
+          class="px-4 py-2 border border-gray-300 text-gray-600 rounded-lg text-sm font-medium hover:bg-gray-50 transition"
+        >
+          Cancelar
+        </button>
+        <button
+          (click)="saveLoan()"
+          class="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 transition shadow-sm"
+        >
+          Guardar Empréstimo
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
