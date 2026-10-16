@@ -1,6 +1,7 @@
 import { Component, computed, signal } from '@angular/core';
 import { NgTemplateOutlet } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
 
 type Perfil = 'admin' | 'cliente';
 type Status = 'disponivel' | 'reservado' | 'emprestado';
@@ -30,7 +31,7 @@ const CORES = ['#2f4858', '#4a5d4f', '#6b4f4a', '#3d3f5c', '#5c5a3d', '#35566b']
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [FormsModule, NgTemplateOutlet],
+  imports: [FormsModule, NgTemplateOutlet, RouterLink],
   templateUrl: './home.component.html',
   styleUrl: './home.css',
 })
@@ -111,7 +112,7 @@ export class Home {
     try { localStorage.setItem('acervo-tema', t); } catch {}
   }
 
-  /** Só para visualizar as duas telas. Remova em produção. */
+  /** Só para visualizar as duas telas. Remover depois em produção. */
   alternarPerfil() {
     this.usuario.update(u => u.perfil === 'admin'
       ? { nome: 'João', perfil: 'cliente' }
