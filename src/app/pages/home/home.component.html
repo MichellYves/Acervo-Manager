@@ -1,0 +1,215 @@
+<div class="app" [attr.data-theme]="tema() === 'escuro' ? 'dark' : 'light'">
+  <header class="topbar">
+    <div class="wrap bar">
+      <span class="brand">Acervo Manager</span>
+      <div class="user">
+        <span class="muted">{{ usuario().nome }} · {{ ehAdmin() ? 'Administrador' : 'Leitor' }}</span>
+        <button class="btn btn-text tema" (click)="alternarTema()"
+                [attr.aria-label]="tema() === 'escuro' ? 'Mudar para tema claro' : 'Mudar para tema escuro'">
+          @if (tema() === 'escuro') {
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg> Claro
+          } @else {
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg> Escuro
+          }
+        </button>
+        <!-- Remover o botão abaixo em produção -->
+        <button class="btn btn-text" (click)="alternarPerfil()">Alternar perfil (demo)</button>
+        <button class="btn btn-text" (click)="sair()">Sair</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    @if (ehAdmin()) {
+      <!-- ============ ADMINISTRADOR ============ -->
+      <section class="head">
+        <div>
+          <h1>Acervo</h1>
+          <p class="muted">Gerencie os livros da biblioteca.</p>
+        </div>
+        <button class="btn btn-primary" (click)="formAberto.set(!formAberto())">
+          {{ formAberto() ? 'Fechar' : 'Adicionar livro' }}
+        </button>
+      </section>
+
+      <section class="stats">
+        <div><strong>{{ total() }}</strong><span class="muted">títulos</span></div>
+        <div><strong>{{ disponiveisQtd() }}</strong><span class="muted">disponíveis</span></div>
+        <div><strong>{{ indisponiveisQtd() }}</strong><span class="muted">reservados ou emprestados</span></div>
+      </section>
+
+      @if (formAberto()) {
+        <form class="form" (ngSubmit)="salvar()" #f="ngForm">
+          <div class="capa-campo">
+            <ng-container *ngTemplateOutlet="capaTpl; context: { src: novo.capa, titulo: novo.titulo || 'Novo livro', autor: novo.autor, id: 0 }" />
+            <label class="btn upload">
+              {{ novo.capa ? 'Trocar capa' : 'Enviar capa' }}
+              <input type="file" accept="image/*" hidden (change)="escolherCapaNovo($event)">
+            </label>
+            @if (erro()) { <p class="erro" role="alert">{{ erro() }}</p> }
+          </div>
+          <div class="campos">
+            <div class="field"><label for="titulo">Título</label>
+              <input id="titulo" name="titulo" [(ngModel)]="novo.titulo" required></div>
+            <div class="field"><label for="autor">Autor</label>
+              <input id="autor" name="autor" [(ngModel)]="novo.autor" required></div>
+            <div class="field"><label for="genero">Gênero</label>
+              <input id="genero" name="genero" [(ngModel)]="novo.genero" required></div>
+            <div class="field"><label for="ano">Ano</label>
+              <input id="ano" name="ano" type="number" [(ngModel)]="novo.ano" required></div>
+            <div class="actions">
+              <button type="button" class="btn" (click)="formAberto.set(false)">Cancelar</button>
+              <button type="submit" class="btn btn-primary" [disabled]="f.invalid">Salvar livro</button>
+            </div>
+          </div>
+        </form>
+      }
+
+      <ng-container *ngTemplateOutlet="filtroTpl" />
+
+      @if (filtrados().length) {
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Livro</th><th>Gênero</th><th>Status</th><th></th></tr></thead>
+            <tbody>
+              @for (l of filtrados(); track l.id) {
+                <tr>
+                  <td>
+                    <div class="livro">
+                      <label class="thumb" title="Trocar capa">
+                        <ng-container *ngTemplateOutlet="capaTpl; context: { src: l.capa, titulo: l.titulo, autor: '', id: l.id }" />
+                        <input type="file" accept="image/*" hidden (change)="trocarCapa(l.id, $event)">
+                      </label>
+                      <div>
+                        <div class="titulo">{{ l.titulo }}</div>
+                        <div class="muted">{{ l.autor }}, {{ l.ano }}</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="muted">{{ l.genero }}</td>
+                  <td>
+                    <select [ngModel]="l.status" (ngModelChange)="alterarStatus(l.id, $event)" [attr.aria-label]="'Status de ' + l.titulo">
+                      <option value="disponivel">Disponível</option>
+                      <option value="reservado">Reservado</option>
+                      <option value="emprestado">Emprestado</option>
+                    </select>
+                    @if (l.reservadoPor) { <div class="muted small">para {{ l.reservadoPor }}</div> }
+                  </td>
+                  <td class="right">
+                    <button class="btn btn-text btn-danger" (click)="remover(l.id, l.titulo)">Remover</button>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      } @else {
+        <p class="empty">Nenhum livro encontrado com esses filtros.</p>
+      }
+    } @else {
+      <!-- ============ CLIENTE ============ -->
+      <section class="head col">
+        <h1>Olá, {{ usuario().nome }}</h1>
+        <p class="muted">Reserve um livro e retire presencialmente na biblioteca.</p>
+      </section>
+
+      @if (aviso()) { <p class="aviso" role="status">{{ aviso() }}</p> }
+
+      @if (minhas().length) {
+        <section class="bloco">
+          <h2>Suas reservas</h2>
+          <ul class="reservas">
+            @for (l of minhas(); track l.id) {
+              <li>
+                <div class="mini">
+                  <ng-container *ngTemplateOutlet="capaTpl; context: { src: l.capa, titulo: l.titulo, autor: '', id: l.id }" />
+                </div>
+                <div class="info">
+                  <div class="titulo">{{ l.titulo }}</div>
+                  <div class="muted">{{ l.autor }}</div>
+                </div>
+                <button class="btn btn-text btn-danger" (click)="cancelar(l.id)">Cancelar reserva</button>
+              </li>
+            }
+          </ul>
+        </section>
+      }
+
+      <section class="bloco">
+        <h2>Disponíveis para retirada</h2>
+        <ng-container *ngTemplateOutlet="filtroTpl" />
+
+        @if (filtrados().length) {
+          <div class="grade">
+            @for (l of filtrados(); track l.id) {
+              <article>
+                <ng-container *ngTemplateOutlet="capaTpl; context: { src: l.capa, titulo: l.titulo, autor: l.autor, id: l.id }" />
+                <div class="titulo">{{ l.titulo }}</div>
+                <div class="muted">{{ l.autor }} · {{ l.ano }}</div>
+                <button class="btn btn-primary" (click)="reservar(l.id, l.titulo)">Reservar</button>
+              </article>
+            }
+          </div>
+        } @else {
+          <p class="empty">Nenhum livro disponível com esses filtros.</p>
+        }
+      </section>
+    }
+  </main>
+</div>
+
+<!-- Capa: imagem enviada ou capa gerada -->
+<ng-template #capaTpl let-src="src" let-titulo="titulo" let-autor="autor" let-id="id">
+  <div class="capa">
+    @if (src) {
+      <img [src]="src" [alt]="'Capa de ' + titulo" loading="lazy">
+    } @else {
+      <div class="fb" [style.background]="cor(id)">
+        <span>{{ titulo }}</span>
+        <small>{{ autor }}</small>
+      </div>
+    }
+  </div>
+</ng-template>
+
+<!-- Filtro (busca, ordenação, status e gênero) -->
+<ng-template #filtroTpl>
+  <div class="filtro">
+    <div class="linha1">
+      <label class="busca">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input type="search" placeholder="Buscar por título ou autor" aria-label="Buscar livros"
+               [ngModel]="filtro().busca" (ngModelChange)="mudar({ busca: $event })">
+      </label>
+      <select aria-label="Ordenar por" [ngModel]="filtro().ordem" (ngModelChange)="mudar({ ordem: $event })">
+        <option value="titulo">Título (A–Z)</option>
+        <option value="autor">Autor (A–Z)</option>
+        <option value="ano">Mais recentes</option>
+      </select>
+    </div>
+
+    @if (ehAdmin()) {
+      <div class="grupo" role="group" aria-label="Filtrar por status">
+        @for (s of statusOpcoes; track s.valor) {
+          <button type="button" class="chip" [class.ativo]="filtro().status === s.valor"
+                  [attr.aria-pressed]="filtro().status === s.valor" (click)="mudar({ status: s.valor })">
+            {{ s.rotulo }} <span class="n">{{ contagem()[s.valor] }}</span>
+          </button>
+        }
+      </div>
+    }
+
+    <div class="grupo" role="group" aria-label="Filtrar por gênero">
+      <button type="button" class="chip" [class.ativo]="filtro().genero === 'todos'"
+              [attr.aria-pressed]="filtro().genero === 'todos'" (click)="mudar({ genero: 'todos' })">Todos os gêneros</button>
+      @for (g of generos(); track g) {
+        <button type="button" class="chip" [class.ativo]="filtro().genero === g"
+                [attr.aria-pressed]="filtro().genero === g" (click)="mudar({ genero: g })">{{ g }}</button>
+      }
+    </div>
+
+    @if (filtroAtivo()) {
+      <button type="button" class="btn btn-text limpar" (click)="limpar()">Limpar filtros</button>
+    }
+  </div>
+</ng-template>
