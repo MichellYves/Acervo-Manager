@@ -1,0 +1,105 @@
+<div class="min-h-screen bg-slate-50 text-slate-800 flex flex-col font-sans">
+  
+  <!-- Navbar Responsiva Pós-Login -->
+  <nav class="bg-white border-b border-slate-200 px-6 py-4 flex justify-between items-center shadow-sm">
+    <div class="flex items-center gap-2">
+      <span class="text-2xl">📚</span>
+      <h1 class="text-xl font-bold text-slate-900 tracking-tight">Acervo Manager</h1>
+    </div>
+    
+    <div class="flex items-center gap-4">
+      <div class="flex items-center gap-2">
+        <img [src]="usuarioLogado.avatar" alt="avatar" class="w-9 h-9 rounded-full border border-slate-300">
+        <span class="text-sm font-medium text-slate-700 hidden sm:inline">Olá, <strong>{{ usuarioLogado.nome }}</strong></span>
+      </div>
+      <button (click)="fazerLogout()" class="px-3 py-1.5 text-xs font-semibold text-red-600 border border-red-200 rounded-md hover:bg-red-50 transition-colors">
+        Sair
+      </button>
+    </div>
+  </nav>
+
+  <!-- Container Principal -->
+  <div class="flex-1 max-w-7xl w-full mx-auto p-4 md:p-6 grid grid-cols-1 md:grid-cols-4 gap-6">
+    
+    <!-- Painel Lateral de Controle (Filtros) -->
+    <aside class="md:col-span-1 bg-white p-5 rounded-xl border border-slate-200 shadow-sm h-fit">
+      <div class="mb-6">
+        <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">Pesquisa rápida</label>
+        <input 
+          type="text" 
+          [(ngModel)]="termoBusca" 
+          (input)="filtrarAcervo()"
+          placeholder="Título ou autor..." 
+          class="w-full px-3 py-2 text-sm bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all"
+        />
+      </div>
+
+      <div>
+        <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-3">Disponibilidade</label>
+        <div class="flex flex-col gap-1">
+          <button (click)="mudarFiltro('todos')" [ngClass]="{'bg-blue-50 text-blue-600 font-semibold': filtroStatus === 'todos'}" class="w-full text-left px-3 py-2 text-sm rounded-lg text-slate-600 hover:bg-slate-50 transition-colors">
+            Todos os Livros
+          </button>
+          <button (click)="mudarFiltro('disponível')" [ngClass]="{'bg-green-50 text-green-700 font-semibold': filtroStatus === 'disponível'}" class="w-full text-left px-3 py-2 text-sm rounded-lg text-slate-600 hover:bg-slate-50 transition-colors">
+            Disponíveis
+          </button>
+          <button (click)="mudarFiltro('emprestado')" [ngClass]="{'bg-amber-50 text-amber-700 font-semibold': filtroStatus === 'emprestado'}" class="w-full text-left px-3 py-2 text-sm rounded-lg text-slate-600 hover:bg-slate-50 transition-colors">
+            Emprestados
+          </button>
+          <button (click)="mudarFiltro('reservado')" [ngClass]="{'bg-purple-50 text-purple-700 font-semibold': filtroStatus === 'reservado'}" class="w-full text-left px-3 py-2 text-sm rounded-lg text-slate-600 hover:bg-slate-50 transition-colors">
+            Reservados
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Área de Exibição dos Livros -->
+    <main class="md:col-span-3">
+      <div class="flex justify-between items-center mb-4">
+        <h2 class="text-lg font-bold text-slate-900">Livros no Acervo ({{ livrosFiltrados.length }})</h2>
+      </div>
+
+      <!-- Grid de Cards de Livros -->
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div *ngFor="let livro of livrosFiltrados" class="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm flex flex-col group hover:shadow-md transition-shadow">
+          
+          <!-- Container da Capa -->
+          <div class="aspect-[3/4] bg-slate-100 overflow-hidden relative">
+            <img [src]="livro.capa" alt="Capa" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+          </div>
+
+          <!-- Informações do Livro -->
+          <div class="p-3 flex flex-col flex-1 justify-between gap-3">
+            <div>
+              <h3 class="font-bold text-sm text-slate-900 line-clamp-1 group-hover:text-blue-600 transition-colors" [title]="livro.titulo">
+                {{ livro.titulo }}
+              </h3>
+              <p class="text-xs text-slate-500 line-clamp-1">{{ livro.autor }}</p>
+            </div>
+
+            <!-- Badges Dinâmicos com Tailwind condicionais -->
+            <div class="mt-auto">
+              <span *ngIf="livro.status === 'disponível'" class="inline-block text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-green-100 text-green-800">
+                Disponível
+              </span>
+              <span *ngIf="livro.status === 'emprestado'" class="inline-block text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-amber-100 text-amber-800">
+                Emprestado
+              </span>
+              <span *ngIf="livro.status === 'reservado'" class="inline-block text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-purple-100 text-purple-800">
+                Reservado
+              </span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Estado Vazio (Nenhum livro encontrado) -->
+      <div *ngIf="livrosFiltrados.length === 0" class="text-center py-12 bg-white border border-dashed border-slate-300 rounded-xl mt-2">
+        <span class="text-4xl block mb-2">🔍</span>
+        <p class="text-slate-500 font-medium">Nenhum livro corresponde à sua busca ou filtro.</p>
+      </div>
+    </main>
+
+  </div>
+</div>
