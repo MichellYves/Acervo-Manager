@@ -1,0 +1,80 @@
+@import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600&family=Newsreader:opsz,wght@6..72,400;6..72,500&display=swap');
+
+:host { display: block; }
+
+.app {
+  --bg: #fafafa; --surface: #ffffff; --ink: #17181c; --muted: #6c7078; --line: #e6e7ea;
+  --accent: #0f5c5c; --accent-soft: #e6f1f0; --radius: 6px;
+  --font-ui: 'Hanken Grotesk', system-ui, sans-serif;
+  --font-title: 'Newsreader', Georgia, serif;
+  min-height: 100vh; background: var(--bg); color: var(--ink);
+  font-family: var(--font-ui); font-size: 15px; line-height: 1.5; color-scheme: light;
+}
+.app[data-theme='dark'] {
+  --bg: #121316; --surface: #1a1c20; --ink: #ececee; --muted: #9a9ea6; --line: #2b2e34;
+  --accent: #5fc2bd; --accent-soft: #17302f; color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+h1, h2 { margin: 0; font-weight: 500; }
+p { margin: 0; }
+ul { list-style: none; margin: 0; padding: 0; }
+.muted { color: var(--muted); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.wrap { max-width: 1040px; margin: 0 auto; padding: 0 24px; }
+.topbar { border-bottom: 1px solid var(--line); background: var(--surface); }
+.bar { display: flex; justify-content: space-between; align-items: center; min-height: 60px; gap: 8px; }
+main { padding-top: 56px; padding-bottom: 80px; }
+
+.btn {
+  font: inherit; font-weight: 500; padding: 8px 16px; display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  border-radius: var(--radius); border: 1px solid var(--line); background: var(--surface); color: var(--ink);
+  cursor: pointer; text-decoration: none; transition: background .15s, border-color .15s;
+}
+.btn:hover { border-color: var(--ink); }
+.btn-primary { background: var(--ink); border-color: var(--ink); color: var(--bg); }
+.btn-primary:hover { background: var(--accent); border-color: var(--accent); color: #fff; }
+.btn-text { border: none; background: none; padding: 4px 0; color: var(--muted); }
+.btn-text:hover { color: var(--ink); border: none; }
+
+.intro { text-align: center; margin-bottom: 48px; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.brand { font-family: var(--font-title); font-size: 1.1rem; color: var(--muted); }
+h1 { font-family: var(--font-title); font-size: clamp(2.25rem, 6vw, 3rem); letter-spacing: -0.02em; line-height: 1.1; }
+
+.aviso { background: var(--accent-soft); color: var(--accent); padding: 12px 16px; border-radius: var(--radius); margin: 0 auto 32px; max-width: 480px; text-align: center; }
+
+.grade { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; align-items: stretch; }
+
+.plano {
+  position: relative; display: flex; flex-direction: column; gap: 20px; padding: 32px 28px;
+  border: 1px solid var(--line); border-radius: 10px; background: var(--surface);
+}
+.plano.destaque { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
+.selo {
+  position: absolute; top: -12px; left: 28px; font-size: 12px; font-weight: 500;
+  padding: 2px 12px; border-radius: 99px; background: var(--accent); color: #fff;
+}
+.plano h2 { font-family: var(--font-title); font-size: 1.5rem; }
+
+.preco { display: flex; align-items: baseline; gap: 4px; }
+.preco strong { font-family: var(--font-title); font-size: 3rem; font-weight: 500; line-height: 1; letter-spacing: -0.02em; }
+.moeda { color: var(--muted); font-size: 1.1rem; margin-right: 2px; }
+
+.limites { display: flex; flex-direction: column; gap: 6px; padding: 16px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); font-weight: 500; }
+.limites span { margin-right: 6px; }
+
+.recursos { display: flex; flex-direction: column; gap: 12px; flex: 1; }
+.recursos li { display: flex; gap: 10px; align-items: flex-start; }
+.recursos svg { flex-shrink: 0; margin-top: 4px; color: var(--accent); }
+
+.plano .btn { width: 100%; padding: 10px 16px; }
+
+@media (max-width: 860px) {
+  .grade { grid-template-columns: 1fr; max-width: 460px; margin: 0 auto; gap: 32px; }
+  main { padding-top: 40px; }
+}
+@media (max-width: 420px) {
+  .wrap { padding: 0 16px; }
+  .plano { padding: 28px 20px; }
+}
