@@ -1,8 +1,16 @@
-package main.java.com.acervo.backend.controller; 
+package com.acervo.backend.controller; 
 
+import java.util.List;
+import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import com.acervo.backend.dto.LoginRequestDTO;
+import com.acervo.backend.dto.UsuarioRequestDTO;
+import com.acervo.backend.dto.UsuarioResponseDTO;
 import com.acervo.backend.service.UsuarioService;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/usuarios")
@@ -34,15 +42,6 @@ public class UsuarioController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
-    @PutMapping("/{id}")
-    public ResponseEntity<Object> atualizarUsuario(@PathVariable UUID id, @Valid @RequestBody UsuarioRequestDTO requestDTO) {
-        try {
-            UsuarioResponseDTO usuarioAtualizado = usuarioService.atualizarUsuario(id, requestDTO);
-            return ResponseEntity.ok(usuarioAtualizado);
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        }
-    }
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> deletarUsuario(@PathVariable UUID id) {
         try {
@@ -50,6 +49,15 @@ public class UsuarioController {
             return ResponseEntity.noContent().build();
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+    }
+    @PostMapping("/login")
+    public ResponseEntity<Object> autenticarUsuario(@Valid @RequestBody LoginRequestDTO request) {
+        try {
+            UsuarioResponseDTO usuarioLogado = usuarioService.autenticarUsuario(request);
+            return ResponseEntity.ok(usuarioLogado);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
         }
     }
 }
