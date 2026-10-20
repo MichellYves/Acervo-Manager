@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="2ab59d74-7bf6-40c1-8b7e-c6a9cb58baa0" name="Changes" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;R-Kelvin&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/R-Kelvin/Acervo-Manager.git&quot;,
+    &quot;accountId&quot;: &quot;15766af0-06b2-4a62-a86f-fc7c090831ec&quot;
+  }
+}</component>
+  <component name="NextEditCompletionFeaturesState">
+    <decayedCancelled>
+      <entry key="MS100" value="1.0" />
+      <entry key="MS500" value="1.000003949222274" />
+      <entry key="S2" value="1.044578750808407" />
+      <entry key="S5" value="1.288171586699716" />
+      <entry key="S10" value="1.5368161572640266" />
+      <entry key="S30" value="1.8127217072675244" />
+      <entry key="S60" value="1.9015107915424663" />
+      <entry key="M2" value="1.9494792212273349" />
+      <entry key="M5" value="1.9794768727556873" />
+      <entry key="M10" value="1.9896852392330033" />
+      <entry key="M15" value="1.9931116167117624" />
+      <entry key="M30" value="1.9965498566111795" />
+      <entry key="H1" value="1.9982734377970695" />
+      <entry key="H2" value="1.999136345949375" />
+      <entry key="H4" value="1.9995680796971136" />
+      <entry key="D1" value="1.999928000324213" />
+      <entry key="W1" value="1.9999897140146314" />
+    </decayedCancelled>
+    <decayedSelected>
+      <entry key="MS100" value="0.0" />
+      <entry key="MS500" value="0.0" />
+      <entry key="S2" value="0.0" />
+      <entry key="S5" value="0.0" />
+      <entry key="S10" value="0.0" />
+      <entry key="S30" value="0.0" />
+      <entry key="S60" value="0.0" />
+      <entry key="M2" value="0.0" />
+      <entry key="M5" value="0.0" />
+      <entry key="M10" value="0.0" />
+      <entry key="M15" value="0.0" />
+      <entry key="M30" value="0.0" />
+      <entry key="H1" value="0.0" />
+      <entry key="H2" value="0.0" />
+      <entry key="H4" value="0.0" />
+      <entry key="D1" value="0.0" />
+      <entry key="W1" value="0.0" />
+    </decayedSelected>
+    <decayedShown>
+      <entry key="MS100" value="0.8950250709279725" />
+      <entry key="MS500" value="0.9780668688168052" />
+      <entry key="S2" value="1.03739630096789" />
+      <entry key="S5" value="1.2816342598808013" />
+      <entry key="S10" value="1.5316672100473268" />
+      <entry key="S30" value="1.8103078856863173" />
+      <entry key="S60" value="1.9001914857515112" />
+      <entry key="M2" value="1.948789193656768" />
+      <entry key="M5" value="1.979193261788572" />
+      <entry key="M10" value="1.98954214043985" />
+      <entry key="M15" value="1.9930159281099862" />
+      <entry key="M30" value="1.996501867103158" />
+      <entry key="H1" value="1.9982494066465084" />
+      <entry key="H2" value="1.9991243212630871" />
+      <entry key="H4" value="1.9995620650747323" />
+      <entry key="D1" value="1.9999269975704626" />
+      <entry key="W1" value="1.9999895707563384" />
+    </decayedShown>
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 3,
+  &quot;fromUser&quot;: false
+}</component>
+  <component name="ProjectId" id="3KZIKTm3yXUqpdeB91bp2n1DPjJ" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "codeWithMe.voiceChat.enabledByDefault": "false",
+    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
+    "git-widget-placeholder": "new-main",
+    "ignore.virus.scanning.warn.message": "true",
+    "junie.onboarding.icon.badge.shown": "true",
+    "kotlin-language-version-configured": "true",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.jshint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.jshint": "",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "prettierjs.PrettierConfiguration.Package": "C:\\Users\\ruank\\Desktop\\Faculdade\\Acervo-Manager\\node_modules\\prettier",
+    "to.speed.mode.migration.done": "true"
+  }
+}]]></component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-30f59d01ecdd-34e2839f716b-intellij.indexing.shared.core-IU-262.9437.185" />
+        <option value="bundled-js-predefined-d6986cc7102b-4abd2a77f808-JavaScript-IU-262.9437.185" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="2ab59d74-7bf6-40c1-8b7e-c6a9cb58baa0" name="Changes" comment="" />
+      <created>1791758601179</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1791758601179</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>
