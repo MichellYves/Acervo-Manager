@@ -69,4 +69,15 @@ public class UsuarioService {
                 }
         return new UsuarioResponseDTO(usuario);
     }
+    public UsuarioResponseDTO atualizarUsuario(UUID id, UsuarioRequestDTO dados){
+        Usuario usuario = usuarioRepository.findById(id)
+             .orElseThrow(() -> new RuntimeException("Usuário não existe!"));
+         usuario.setNome(dados.nome());
+         usuario.setEmail(dados.email());
+         usuario.setSenha(dados.senha());
+         usuario.setPerfil(dados.perfil());
+
+         Usuario usuarioSalvo = usuarioRepository.save(usuario);
+         return new UsuarioResponseDTO(usuarioSalvo);
+    }
 }

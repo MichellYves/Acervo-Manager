@@ -43,4 +43,23 @@ public List<LivroResponseDTO> buscarPorTitulo(String titulo) {
             .stream().map(LivroResponseDTO::new)
             .collect(Collectors.toList());
 }
+@Transactional 
+public LivroResponseDTO atualizarLivro(UUID id, LivroRequestDTO dados) {
+    Livro livro = livroRepository.findById(id)
+           .orElseThrow(() -> new RuntimeException("Livro não encontrado!"));
+        
+           livro.setTitulo(dados.titulo());
+           livro.setAutor(dados.autor());
+
+    Livro livroAtualizado = livroRepository.save(livro);
+    return new LivroResponseDTO(livroAtualizado);           
+}
+@Transactional 
+public void deletarLivro(UUID id) {
+    Livro livro = livroRepository.findById(id)
+          .orElseThrow(() -> new RuntimeException("Livro não encontrado!"));
+
+    livroRepository.delete(livro);
+}
+
 }

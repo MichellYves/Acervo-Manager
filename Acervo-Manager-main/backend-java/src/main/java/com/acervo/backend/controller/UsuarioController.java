@@ -51,6 +51,11 @@ public class UsuarioController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
+    @PutMapping("/{id}")
+    public ResponseEntity<UsuarioResponseDTO> atualizarUsuario(@PathVariable UUID id, @RequestBody      @Valid UsuarioRequestDTO dados){
+            UsuarioResponseDTO usuarioAtualizado = usuarioService.atualizarUsuario(id, dados);
+            return ResponseEntity.ok(usuarioAtualizado);
+    }
     @PostMapping("/login")
     public ResponseEntity<Object> autenticarUsuario(@Valid @RequestBody LoginRequestDTO request) {
         try {
