@@ -5,15 +5,48 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:orientation="vertical"
+    tools:context=".MainActivity"
+  android:padding="16dp">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+
+  <TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="start"
+    android:padding="64dp"
+    android:text="Seja bem vindo"
+    tools:layout_editor_absoluteX="76dp"
+    tools:layout_editor_absoluteY="16dp" />
+
+  <EditText
+    android:layout_width="match_parent"
+    android:layout_height="48dp"
+    android:autofillHints="emailAddress"
+    android:hint="Usuario"
+    android:inputType="textPassword"
+    tools:ignore="MissingConstraints"
+
+    tools:layout_editor_absoluteX="3dp"
+    tools:layout_editor_absoluteY="163dp" />
+
+  <EditText
+    android:layout_width="match_parent"
+    android:layout_height="48dp"
+    android:autofillHints="password"
+    android:hint="Senha"
+    android:inputType="textPassword"
+    tools:ignore="MissingConstraints"
+    tools:layout_editor_absoluteX="25dp"
+    tools:layout_editor_absoluteY="227dp" />
+
+  <Button
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:backgroundTint="@color/black"
+    android:text="Entrar"
+    tools:layout_editor_absoluteX="146dp"
+    tools:layout_editor_absoluteY="304dp" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
