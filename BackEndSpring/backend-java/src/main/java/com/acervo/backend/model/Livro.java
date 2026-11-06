@@ -2,6 +2,9 @@ package com.acervo.backend.model;
 
 import java.io.Serializable;
 import java.util.UUID;
+
+import org.hibernate.annotations.UuidGenerator;
+
 import com.acervo.backend.dto.LivroRequestDTO;
 import jakarta.persistence.*;
 import lombok.*;
@@ -27,7 +30,8 @@ public class Livro implements Serializable {
     }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
+    @UuidGenerator
     private UUID id;
 
     @Column(nullable = false, length = 150)
