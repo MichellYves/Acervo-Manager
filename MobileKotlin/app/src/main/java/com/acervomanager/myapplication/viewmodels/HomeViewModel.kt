@@ -1,4 +1,4 @@
-package com.acervomanager.myapplication.ui.home
+package com.acervomanager.myapplication.viewmodels
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
