@@ -1,14 +1,15 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    id("org.jetbrains.kotlin.kapt")
 }
 
 android {
-    namespace = "com.acervomanager.myapplication"
+    namespace = "com.acervomanager.mobilekotlin"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.acervomanager.myapplication"
+        applicationId = "com.acervomanager.mobilekotlin"
         minSdk = 26
         targetSdk = 35
         versionCode = 1
@@ -48,6 +49,9 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    kapt(libs.androidx.room.compiler)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

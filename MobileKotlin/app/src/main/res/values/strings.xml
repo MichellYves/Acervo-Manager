@@ -18,4 +18,18 @@
     <!-- Botões e descrições -->
     <string name="button_remove_book">Remover livro</string>
     <string name="desc_book_image">Imagem de livros</string>
+    <string name="label_book_name">Nome do livro</string>
+    <string name="label_author">Autor</string>
+    <string name="label_genre">Gênero</string>
+    <string name="action_add_book">Adicionar livro</string>
+    <string name="action_edit_book">Editar livro</string>
+    <string name="action_add_favorite">Adicionar aos favoritos</string>
+    <string name="action_remove_favorite">Remover dos favoritos</string>
+    <string name="msg_no_books_found">Nenhum livro encontrado.</string>
+    <string name="msg_no_favorites">Nenhum livro encontrado nos seus favoritos!</string>
+    <string name="msg_required_fields">Preencha todos os campos.</string>
+    <string name="msg_confirm_delete">Tem certeza de que deseja excluir este livro?</string>
+    <string name="action_save">Salvar</string>
+    <string name="action_cancel">Cancelar</string>
+    <string name="action_delete">Excluir</string>
 </resources>

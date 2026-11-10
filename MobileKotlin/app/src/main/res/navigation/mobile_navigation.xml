@@ -7,13 +7,13 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.acervomanager.myapplication.ui.HomeFragment"
+        android:name="com.acervomanager.mobilekotlin.ui.HomeFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="com.acervomanager.myapplication.ui.FavoriteFragment"
+        android:id="@+id/navigation_favorite"
+        android:name="com.acervomanager.mobilekotlin.ui.FavoriteFragment"
         android:label="@string/title_favorites"
         tools:layout="@layout/fragment_favorite" />
 
