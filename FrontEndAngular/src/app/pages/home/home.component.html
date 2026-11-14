@@ -14,9 +14,7 @@
         </button>
         <!-- Remover o botão abaixo em produção -->
         <button class="btn btn-text" (click)="alternarPerfil()">Alternar perfil (demo)</button>
-        <button routerLink="/plans" class="btn btn-text" >Planos</button>
-        <button routerLink="/loan" class="btn btn-text" >Empréstimos</button>
-        <button routerLink="/login" class="btn btn-text" (click)="sair()">Sair</button>
+        <button class="btn btn-text" (click)="sair()">Sair</button>
       </div>
     </div>
   </header>
@@ -110,54 +108,206 @@
       }
     } @else {
       <!-- ============ CLIENTE ============ -->
-      <section class="head col">
-        <h1>Olá, {{ usuario().nome }}</h1>
-        <p class="muted">Reserve um livro e retire presencialmente na biblioteca.</p>
-      </section>
-
-      @if (aviso()) { <p class="aviso" role="status">{{ aviso() }}</p> }
-
-      @if (minhas().length) {
-        <section class="bloco">
-          <h2>Suas reservas</h2>
-          <ul class="reservas">
-            @for (l of minhas(); track l.id) {
-              <li>
-                <div class="mini">
-                  <ng-container *ngTemplateOutlet="capaTpl; context: { src: l.capa, titulo: l.titulo, autor: '', id: l.id }" />
-                </div>
-                <div class="info">
-                  <div class="titulo">{{ l.titulo }}</div>
-                  <div class="muted">{{ l.autor }}</div>
-                </div>
-                <button class="btn btn-text btn-danger" (click)="cancelar(l.id)">Cancelar reserva</button>
-              </li>
-            }
-          </ul>
-        </section>
-      }
-
-      <section class="bloco">
-        <h2>Disponíveis para retirada</h2>
-        <ng-container *ngTemplateOutlet="filtroTpl" />
-
-        @if (filtrados().length) {
-          <div class="grade">
-            @for (l of filtrados(); track l.id) {
-              <article>
-                <ng-container *ngTemplateOutlet="capaTpl; context: { src: l.capa, titulo: l.titulo, autor: l.autor, id: l.id }" />
-                <div class="titulo">{{ l.titulo }}</div>
-                <div class="muted">{{ l.autor }} · {{ l.ano }}</div>
-                <button class="btn btn-primary" (click)="reservar(l.id, l.titulo)">Reservar</button>
-              </article>
-            }
+      <div class="cli">
+        <section class="hero">
+          <div>
+            <p class="eyebrow">Biblioteca</p>
+            <h1>Olá, {{ usuario().nome }}.<em>O que vamos ler hoje?</em></h1>
+            <span class="situacao" [class.late]="situacao().atraso">{{ situacao().texto }}</span>
           </div>
-        } @else {
-          <p class="empty">Nenhum livro disponível com esses filtros.</p>
+          <div class="resumo">
+            <div><strong>{{ disponiveisQtd() }}</strong><span>disponíveis</span></div>
+            <div><strong>{{ comVoce() }}</strong><span>com você</span></div>
+          </div>
+        </section>
+
+        <label class="busca">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+          <input type="search" placeholder="Busque por título ou autor" aria-label="Buscar livros"
+                 [ngModel]="filtro().busca" (ngModelChange)="mudar({ busca: $event })">
+        </label>
+        <div class="chips" role="group" aria-label="Filtrar por gênero">
+          <button type="button" class="chip" [class.ativo]="filtro().genero === 'todos'"
+                  [attr.aria-pressed]="filtro().genero === 'todos'" (click)="mudar({ genero: 'todos' })">Todos</button>
+          @for (g of generos(); track g) {
+            <button type="button" class="chip" [class.ativo]="filtro().genero === g"
+                    [attr.aria-pressed]="filtro().genero === g" (click)="mudar({ genero: g })">{{ g }}</button>
+          }
+        </div>
+
+        @if (!filtrando() && destaque(); as d) {
+          <article class="destaque">
+            <ng-container *ngTemplateOutlet="capaTpl; context: { src: d.capa, titulo: d.titulo, autor: d.autor, id: d.id }" />
+            <div>
+              <p class="eyebrow">Destaque da semana</p>
+              <h2>{{ d.titulo }}</h2>
+              <p class="muted">{{ d.autor }} · {{ d.genero }}, {{ d.ano }}</p>
+              <span class="tag">Disponível para retirada</span>
+              <div><button class="btn btn-primary" (click)="abrirReserva(d)">Reservar este livro</button></div>
+            </div>
+          </article>
         }
-      </section>
+
+        @if (meusEmprestimos().length) {
+          <section class="bloco">
+            <div class="bloco-h">
+              <h2>Seus empréstimos</h2>
+              <p class="muted">Prazo de {{ prazoDias }} dias para devolução</p>
+            </div>
+            <ul class="emps">
+              @for (l of meusEmprestimos(); track l.id) {
+                <li [class]="'emp ' + estado(dias(l))">
+                  <div class="mini">
+                    <ng-container *ngTemplateOutlet="capaTpl; context: { src: l.capa, titulo: l.titulo, autor: '', id: l.id }" />
+                  </div>
+                  <div class="corpo">
+                    <div>
+                      <div class="titulo">{{ l.titulo }}</div>
+                      <div class="muted">{{ l.autor }} · devolver até {{ ate(dias(l)) }}</div>
+                    </div>
+                    <div class="barra" role="progressbar" aria-label="Dias usados do prazo"
+                         aria-valuemin="0" [attr.aria-valuemax]="prazoDias" [attr.aria-valuenow]="prazoDias - dias(l)">
+                      <i [style.width.%]="progresso(dias(l))"></i>
+                    </div>
+                    <div class="tempo">{{ tempo(dias(l)) }}</div>
+                  </div>
+                </li>
+              }
+            </ul>
+          </section>
+        }
+
+        @if (minhas().length) {
+          <section class="bloco">
+            <div class="bloco-h"><h2>Suas reservas</h2></div>
+            <ul class="reservas">
+              @for (l of minhas(); track l.id) {
+                <li class="reserva">
+                  <div class="mini">
+                    <ng-container *ngTemplateOutlet="capaTpl; context: { src: l.capa, titulo: l.titulo, autor: '', id: l.id }" />
+                  </div>
+                  <div class="info">
+                    <small>Aguardando retirada</small>
+                    <div class="titulo">{{ l.titulo }}</div>
+                    <div class="muted">{{ l.autor }} · código {{ l.codigo }}</div>
+                  </div>
+                  <div class="acoes">
+                    <button class="btn" (click)="mostrarCodigo(l)">Ver código</button>
+                    <button class="btn btn-text btn-danger" (click)="cancelar(l.id)">Cancelar</button>
+                  </div>
+                </li>
+              }
+            </ul>
+          </section>
+        }
+
+        @if (!filtrando() && novidades().length) {
+          <section class="bloco">
+            <div class="bloco-h"><h2>Novidades no acervo</h2><p class="muted">Chegaram recentemente</p></div>
+            <div class="strip">
+              @for (l of novidades(); track l.id) {
+                <ng-container *ngTemplateOutlet="cardTpl; context: { l: l, off: false }" />
+              }
+            </div>
+          </section>
+        }
+
+        @if (!filtrando() && favoritosLista().length) {
+          <section class="bloco">
+            <div class="bloco-h"><h2>Seus favoritos</h2><p class="muted">Avisamos quando um favorito voltar</p></div>
+            <div class="strip">
+              @for (l of favoritosLista(); track l.id) {
+                <ng-container *ngTemplateOutlet="cardTpl; context: { l: l, off: l.status !== 'disponivel' }" />
+              }
+            </div>
+          </section>
+        }
+
+        <section class="bloco">
+          <div class="bloco-h">
+            <h2>Disponíveis para retirada <span class="muted cont">{{ lista().length }} {{ lista().length === 1 ? 'livro' : 'livros' }}</span></h2>
+            <select aria-label="Ordenar por" [ngModel]="filtro().ordem" (ngModelChange)="mudar({ ordem: $event })">
+              <option value="titulo">Título (A–Z)</option>
+              <option value="autor">Autor (A–Z)</option>
+              <option value="ano">Mais recentes</option>
+            </select>
+          </div>
+          @if (lista().length) {
+            <div class="grade">
+              @for (l of lista(); track l.id) {
+                <ng-container *ngTemplateOutlet="cardTpl; context: { l: l, off: false }" />
+              }
+            </div>
+          } @else {
+            <p class="empty">Nenhum livro disponível com esses filtros.</p>
+          }
+        </section>
+
+        @if (emBreve().length) {
+          <section class="bloco">
+            <div class="bloco-h"><h2>Voltam em breve</h2><p class="muted">Emprestados no momento</p></div>
+            <div class="grade">
+              @for (l of emBreve(); track l.id) {
+                <ng-container *ngTemplateOutlet="cardTpl; context: { l: l, off: true }" />
+              }
+            </div>
+          </section>
+        }
+      </div>
     }
   </main>
+
+  <!-- Regras antes de reservar -->
+  <dialog #regrasDlg aria-labelledby="regras-t" (click)="fora($event, regrasDlg)">
+    <div class="dlg-ico">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+    </div>
+    <h2 id="regras-t">Antes de reservar</h2>
+    @if (pendente(); as p) { <p class="muted">“{{ p.titulo }}”</p> }
+    <div class="regras">
+      <div class="prazo"><strong>{{ prazoDias }} dias</strong><span class="muted">de prazo para devolução</span></div>
+      <p class="alerta">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 3 2 20h20L12 3z"/><path d="M12 10v4M12 17h.01"/></svg>
+        <span>Passando desse prazo, a devolução fica sujeita a multa.</span>
+      </p>
+    </div>
+    <div class="dlg-acoes">
+      <button class="btn" (click)="cancelarPendente()">Cancelar</button>
+      <button class="btn btn-primary" (click)="confirmarReserva()">Entendi, reservar</button>
+    </div>
+  </dialog>
+
+  <!-- Código de retirada -->
+  <dialog #codigoDlg class="cod" aria-labelledby="cod-t" (click)="fora($event, codigoDlg)">
+    <div class="dlg-ico">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3zM20 14v3M14 20h3M20 20h1"/></svg>
+    </div>
+    <h2 id="cod-t">{{ codigoNovo() ? 'Reserva confirmada' : 'Código de retirada' }}</h2>
+    @if (codigoAtual(); as c) {
+      <p class="muted">“{{ c.titulo }}”</p>
+      @if (qr(); as q) {
+        <div class="qr">
+          <svg [attr.viewBox]="'0 0 ' + q.tam + ' ' + q.tam" shape-rendering="crispEdges" role="img" aria-label="QR code da reserva">
+            <rect [attr.width]="q.tam" [attr.height]="q.tam" fill="#fff"/>
+            <path [attr.d]="q.d" fill="#17181c"/>
+          </svg>
+        </div>
+      }
+      <p class="muted rotulo-cod">Código</p>
+      <div class="codigo">{{ c.codigo }}</div>
+    }
+    <p class="dica">
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg>
+      <span>Mostre este código ou o QR no balcão da biblioteca para retirar o livro.</span>
+    </p>
+    <div class="dlg-acoes">
+      <button class="btn" (click)="copiarCodigo()">Copiar código</button>
+      <button class="btn btn-primary" (click)="fecharCodigo()">Fechar</button>
+    </div>
+  </dialog>
+
+  <!-- Aviso rápido -->
+  <div class="toast" [class.on]="toastVisivel()" role="status">{{ toastTexto() }}</div>
 </div>
 
 <!-- Capa: imagem enviada ou capa gerada -->
@@ -214,4 +364,28 @@
       <button type="button" class="btn btn-text limpar" (click)="limpar()">Limpar filtros</button>
     }
   </div>
+</ng-template>
+
+<!-- Card de livro (grade, faixas e "voltam em breve") -->
+<ng-template #cardTpl let-l="l" let-off="off">
+  <article class="card" [class.off]="off">
+    <div class="cw">
+      <ng-container *ngTemplateOutlet="capaTpl; context: { src: l.capa, titulo: l.titulo, autor: l.autor, id: l.id }" />
+      @if (l.novo) { <span class="novo">Novo</span> }
+      <button type="button" class="fav" [class.on]="eFavorito(l.id)" [attr.aria-pressed]="eFavorito(l.id)"
+              [attr.aria-label]="'Favoritar ' + l.titulo" (click)="alternarFavorito(l.id)">
+        <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 20s-7-4.4-9-9.2C1.8 7.6 3.8 4.5 7 4.5c2 0 3.4 1.1 5 3 1.6-1.9 3-3 5-3 3.2 0 5.2 3.1 4 6.3C19 15.6 12 20 12 20z"/></svg>
+      </button>
+    </div>
+    <div class="titulo">{{ l.titulo }}</div>
+    <div class="muted">{{ l.autor }} · {{ l.ano }}</div>
+    @if (off) {
+      <div class="volta">{{ l.diasRestantes > 0 ? 'Volta em ' + pl(l.diasRestantes) : 'Volta em breve' }}</div>
+      <button class="btn" [class.on]="temAviso(l.id)" (click)="alternarAviso(l)">
+        {{ temAviso(l.id) ? 'Avisaremos você' : 'Avise-me quando voltar' }}
+      </button>
+    } @else {
+      <button class="btn" (click)="abrirReserva(l)">Reservar</button>
+    }
+  </article>
 </ng-template>
