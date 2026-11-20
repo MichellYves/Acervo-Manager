@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#0F1115"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cadastrar Novo Livro"
+        android:textColor="#F8FAFC"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/edit_title"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="16dp"
+        android:background="#1E222B"
+        android:hint="Título do Livro"
+        android:inputType="text"
+        android:paddingHorizontal="16dp"
+        android:textColor="#F8FAFC"
+        android:textColorHint="#64748B" />
+
+    <EditText
+        android:id="@+id/edit_author"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="12dp"
+        android:background="#1E222B"
+        android:hint="Autor e Ano"
+        android:inputType="text"
+        android:paddingHorizontal="16dp"
+        android:textColor="#F8FAFC"
+        android:textColorHint="#64748B" />
+
+    <EditText
+        android:id="@+id/edit_genre"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="12dp"
+        android:background="#1E222B"
+        android:hint="Gênero"
+        android:inputType="text"
+        android:paddingHorizontal="16dp"
+        android:textColor="#F8FAFC"
+        android:textColorHint="#64748B" />
+
+    <Button
+        android:id="@+id/btn_save_book"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="24dp"
+        android:backgroundTint="#2563EB"
+        android:text="Salvar Livro"
+        android:textColor="#FFFFFF" />
+</LinearLayout>
