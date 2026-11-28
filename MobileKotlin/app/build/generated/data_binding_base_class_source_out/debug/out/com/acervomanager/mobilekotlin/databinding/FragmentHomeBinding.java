@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewbinding.ViewBinding;
 import androidx.viewbinding.ViewBindings;
 import com.acervomanager.mobilekotlin.R;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.lang.NullPointerException;
 import java.lang.Override;
 import java.lang.String;
@@ -24,9 +23,6 @@ public final class FragmentHomeBinding implements ViewBinding {
 
   @NonNull
   public final EditText editSearch;
-
-  @NonNull
-  public final FloatingActionButton fabAddBook;
 
   @NonNull
   public final TextView filterAll;
@@ -41,12 +37,10 @@ public final class FragmentHomeBinding implements ViewBinding {
   public final RecyclerView recyclerviewBooks;
 
   private FragmentHomeBinding(@NonNull NestedScrollView rootView, @NonNull EditText editSearch,
-      @NonNull FloatingActionButton fabAddBook, @NonNull TextView filterAll,
-      @NonNull TextView filterAvailable, @NonNull TextView filterReserved,
-      @NonNull RecyclerView recyclerviewBooks) {
+      @NonNull TextView filterAll, @NonNull TextView filterAvailable,
+      @NonNull TextView filterReserved, @NonNull RecyclerView recyclerviewBooks) {
     this.rootView = rootView;
     this.editSearch = editSearch;
-    this.fabAddBook = fabAddBook;
     this.filterAll = filterAll;
     this.filterAvailable = filterAvailable;
     this.filterReserved = filterReserved;
@@ -86,12 +80,6 @@ public final class FragmentHomeBinding implements ViewBinding {
         break missingId;
       }
 
-      id = R.id.fab_add_book;
-      FloatingActionButton fabAddBook = ViewBindings.findChildViewById(rootView, id);
-      if (fabAddBook == null) {
-        break missingId;
-      }
-
       id = R.id.filter_all;
       TextView filterAll = ViewBindings.findChildViewById(rootView, id);
       if (filterAll == null) {
@@ -116,7 +104,7 @@ public final class FragmentHomeBinding implements ViewBinding {
         break missingId;
       }
 
-      return new FragmentHomeBinding((NestedScrollView) rootView, editSearch, fabAddBook, filterAll,
+      return new FragmentHomeBinding((NestedScrollView) rootView, editSearch, filterAll,
           filterAvailable, filterReserved, recyclerviewBooks);
     }
     String missingId = rootView.getResources().getResourceName(id);

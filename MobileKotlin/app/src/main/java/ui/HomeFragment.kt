@@ -119,10 +119,16 @@ class HomeFragment : Fragment() {
             applyFilters()
         }
 
-        val fabAddBook = view.findViewById<FloatingActionButton>(R.id.fab_add_book)
-        fabAddBook?.setOnClickListener {
-            val dialog = AddBookBottomSheet()
-            dialog.show(parentFragmentManager, "AddBookDialog")
+        parentFragmentManager.setFragmentResultListener("new_book_result", viewLifecycleOwner) { _, bundle ->
+            val title = bundle.getString("title").orEmpty()
+            val author = bundle.getString("author").orEmpty()
+            val genre = bundle.getString("genre").orEmpty()
+            val status = bundle.getString("status") ?: "Disponível"
+
+            if (title.isNotBlank() && author.isNotBlank()) {
+                BooksStore.books.add(0, Book(title, author, genre, status))
+                applyFilters()
+            }
         }
 
         parentFragmentManager.setFragmentResultListener("new_book_result", viewLifecycleOwner) { _, bundle ->
@@ -157,7 +163,9 @@ class HomeFragment : Fragment() {
                 }
                 matchesSearch && matchesStatus
             }
+
             (it as? BookAdapter)?.updateBooks(filtered)
         }
+
     }
 }

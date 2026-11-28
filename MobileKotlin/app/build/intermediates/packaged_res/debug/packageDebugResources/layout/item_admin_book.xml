@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginVertical="6dp"
+    android:background="#1E222B"
+    android:padding="14dp">
+
+    <TextView
+        android:id="@+id/text_admin_book_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textColor="#F8FAFC"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@id/switch_book_status"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/text_admin_book_author"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:textColor="#94A3B8"
+        android:textSize="13sp"
+        app:layout_constraintEnd_toStartOf="@id/switch_book_status"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text_admin_book_title" />
+
+    <TextView
+        android:id="@+id/text_admin_book_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:paddingHorizontal="10dp"
+        android:paddingVertical="4dp"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text_admin_book_author" />
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/switch_book_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#F8FAFC"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

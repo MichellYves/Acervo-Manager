@@ -56,7 +56,6 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/filter_all"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
@@ -112,17 +111,19 @@
             android:layout_height="wrap_content"
             android:nestedScrollingEnabled="false" />
 
-        <!-- Botão Flutuante de Adicionar Livro -->
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab_add_book"
+        <TextView
+            android:id="@+id/filter_all"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:layout_margin="16dp"
-            android:backgroundTint="#2563EB"
-            android:contentDescription="Adicionar Livro"
-            android:src="@android:drawable/ic_input_add"
-            app:tint="#FFFFFF" />
+            android:layout_marginEnd="8dp"
+            android:background="#2563EB"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="8dp"
+            android:text="Todos"
+            android:textColor="#FFFFFF"
+            android:textSize="13sp"
+            android:textStyle="bold" />
+
 
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

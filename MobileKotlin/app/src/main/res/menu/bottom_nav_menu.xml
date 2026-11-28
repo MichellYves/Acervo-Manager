@@ -11,4 +11,9 @@
         android:icon="@drawable/ic_favorite"
         android:title="@string/title_favorites" />
 
+    <item
+        android:id="@+id/navigation_admin"
+        android:icon="@android:drawable/ic_menu_manage"
+        android:title="Administrar" />
+
 </menu>

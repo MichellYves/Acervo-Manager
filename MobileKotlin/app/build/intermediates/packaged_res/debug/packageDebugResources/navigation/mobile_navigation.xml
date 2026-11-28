@@ -3,19 +3,24 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_home">
+    app:startDestination="@id/navigation_home">
 
     <fragment
         android:id="@+id/navigation_home"
         android:name="com.acervomanager.mobilekotlin.ui.HomeFragment"
-        android:label="@string/title_home"
+        android:label="Acervo"
         tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/navigation_favorite"
         android:name="com.acervomanager.mobilekotlin.ui.FavoriteFragment"
-        android:label="@string/title_favorites"
+        android:label="Favoritos"
         tools:layout="@layout/fragment_favorite" />
 
+    <fragment
+        android:id="@+id/navigation_admin"
+        android:name="com.acervomanager.mobilekotlin.ui.AdminFragment"
+        android:label="Administrar"
+        tools:layout="@layout/fragment_admin" />
 
 </navigation>

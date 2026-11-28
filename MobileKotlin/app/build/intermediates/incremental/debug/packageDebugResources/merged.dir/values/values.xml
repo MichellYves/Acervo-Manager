@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="blue">#1E90FF</color>
+    <color name="gold">#FFD700</color>
+    <color name="light_red">#FF6347</color>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="red">#BD0820</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="white">#FFFFFFFF</color>
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <string name="action_add_book">Adicionar livro</string>
+    <string name="action_add_favorite">Adicionar aos favoritos</string>
+    <string name="action_cancel">Cancelar</string>
+    <string name="action_delete">Excluir</string>
+    <string name="action_edit_book">Editar livro</string>
+    <string name="action_remove_favorite">Remover dos favoritos</string>
+    <string name="action_save">Salvar</string>
+    <string name="app_name">Acervo Manager</string>
+    <string name="button_remove_book">Remover livro</string>
+    <string name="desc_book_image">Imagem de livros</string>
+    <string name="dialog_message_delete_item">Tem certeza de que deseja excluir este item?</string>
+    <string name="dialog_negative_button_no">Não</string>
+    <string name="dialog_positive_button_yes">Sim</string>
+    <string name="label_author">Autor</string>
+    <string name="label_book_name">Nome do livro</string>
+    <string name="label_genre">Gênero</string>
+    <string name="msg_confirm_delete">Tem certeza de que deseja excluir este livro?</string>
+    <string name="msg_no_books">Nenhum livro encontrado nos seus favoritos!</string>
+    <string name="msg_no_books_found">Nenhum livro encontrado.</string>
+    <string name="msg_no_favorites">Nenhum livro encontrado nos seus favoritos!</string>
+    <string name="msg_removed_successfully">Item removido com sucesso!</string>
+    <string name="msg_required_fields">Preencha todos os campos.</string>
+    <string name="title_book_details">Detalhes</string>
+    <string name="title_favorites">Favoritos</string>
+    <string name="title_home">Home</string>
+    <style name="Theme.MobileKotlin" parent="Theme.Material3.DayNight.NoActionBar">
+        
+        <item name="android:windowBackground">#0F1115</item>
+        
+        <item name="colorPrimary">#F8FAFC</item>
+        <item name="colorOnPrimary">#0F1115</item>
+    </style>
+</resources>
